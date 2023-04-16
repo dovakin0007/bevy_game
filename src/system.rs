@@ -2,11 +2,10 @@
 // mod events;
 // mod resources;
 
-
-use crate::events::*;
+use crate::AppState;
+use crate::game::events::*;
 
 use bevy::app::AppExit;
-
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
@@ -24,6 +23,31 @@ pub fn spawn_camera(
     );
  }
 
+pub fn transition_to_game_state(
+   mut commands: Commands,
+   keyboard_input: Res<Input<KeyCode>>,
+   app_state: Res<State<AppState>>
+){
+   if keyboard_input.just_pressed(KeyCode::G){
+      if app_state.0 != AppState::Game{
+         commands.insert_resource(NextState(Some(AppState::Game)));
+         println!("Switched to Game State");
+      }
+   }
+}
+
+pub fn transition_to_main_menu_state(
+   mut commands: Commands,
+   keyboard_input: Res<Input<KeyCode>>,
+   app_state: Res<State<AppState>>,
+){
+   if keyboard_input.just_pressed(KeyCode::M){
+      if app_state.0 != AppState::Menu{
+         commands.insert_resource(NextState(Some(AppState::Menu)));
+         println!("Switched to Menu State");
+      }
+   }
+}
 
 pub fn exit_game(
    keyboard_input: Res<Input<KeyCode>>,

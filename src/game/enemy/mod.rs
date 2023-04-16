@@ -6,6 +6,10 @@ use bevy::prelude::*;
 
 use resources::*;
 use system::*;
+use crate::AppState;
+
+
+use crate::game::SimulationState;
 
 pub const NO_OF_ENEMIES: usize = 4;
 pub const ENEMY_SPEED:f32 = 200.0;
@@ -31,10 +35,16 @@ impl Plugin for EnemyPlugin {
             //     enemy_movement.before(confine_enemy_movement),
             //     confine_enemy_movement
             // ))
-            .add_system(enemy_movement.in_set(EnemySystemSet::Movement))
-            .add_system(confine_enemy_movement.in_set(EnemySystemSet::Confinement))
-            .add_system(update_enemy_movement)
-            .add_system(start_enemy_spawn_timer)
-            .add_system(start_enemy_spawn_time);
+            .add_system((enemy_movement.in_set(EnemySystemSet::Movement))
+            .run_if(in_state(AppState::Game))
+            .run_if(in_state(SimulationState::Running)))
+            .add_system(confine_enemy_movement.in_set(EnemySystemSet::Confinement).run_if(in_state(AppState::Game))
+            .run_if(in_state(SimulationState::Running)))
+            .add_system(update_enemy_movement.run_if(in_state(AppState::Game))
+            .run_if(in_state(SimulationState::Running)))
+            .add_system(start_enemy_spawn_timer.run_if(in_state(AppState::Game))
+            .run_if(in_state(SimulationState::Running)))
+            .add_system(start_enemy_spawn_time.run_if(in_state(AppState::Game))
+            .run_if(in_state(SimulationState::Running)));
     }
 }

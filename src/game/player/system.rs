@@ -3,10 +3,10 @@ use bevy::window::PrimaryWindow;
 
 use super::components::*;
 use super::{PLAYER_SPEED, PLAYER_SIZE, ENEMY_SIZE, STAR_SIZE};
-use crate::enemy::components::*;
-use crate::events::GameOver;
-use crate::score::resources::*;
-use crate::star::components::*;
+use crate::game::enemy::components::*;
+use crate::game::events::GameOver;
+use crate::game::score::resources::*;
+use crate::game::star::components::*;
 
 
 pub fn spawn_player(

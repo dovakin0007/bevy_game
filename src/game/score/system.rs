@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::events::*;
+use crate::game::events::*;
 use super::resources::*;
 
 pub fn update_score(score: Res<Score>){
